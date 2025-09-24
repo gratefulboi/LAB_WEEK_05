@@ -66,12 +66,17 @@ class MainActivity : AppCompatActivity() {
                 if(response.isSuccessful){
                     val image = response.body()
                     val firstImage = image?.firstOrNull()?.imageUrl.orEmpty()
+
+                    //ambil gambar
                     if(firstImage.isNotEmpty()) {
                         imageLoader.loadImage(firstImage, imageResultView)
                     } else {
                         Log.d(MAIN_ACTIVITY, "Missing image URL")
                     }
-                    apiResponseView.text = getString(R.string.image_placeholder, firstImage)
+
+                    //ambil breed
+                    val breedName = image?.firstOrNull()?.breeds?.firstOrNull()?.name?:"Unknown"
+                    apiResponseView.text = getString(R.string.breed_placeholder, breedName)
                 }
                 else {
                     Log.e(MAIN_ACTIVITY, "Failed to get response\n" + response.errorBody()?.string().orEmpty())
